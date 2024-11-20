@@ -1,1 +1,0 @@
-Diese Datei erst entfernen (git rm, commit, push), wenn das C++-Programm fertiggestellt ist.
