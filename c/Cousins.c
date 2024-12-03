@@ -76,18 +76,18 @@ Geschwister *getAllMittelGeschwister() {
 
         if (geschwisterPtr != NULL) {
             int isSame = 0;
-            for (int k = 0; allGeschwisterList[k].vorname[0] != '\0'; k++) {
-                if (strcmp(geschwisterPtr->vorname, (allGeschwisterList + k)->vorname) == 0 &&
-                    strcmp(geschwisterPtr->nachname, (allGeschwisterList + k)->nachname) == 0 &&
-                    geschwisterPtr->geburtsjahr == (allGeschwisterList + k)->geburtsjahr) {
+            for (int j = 0; allGeschwisterList[j].vorname[0] != '\0'; j++) {
+                if (strcmp(geschwisterPtr->vorname, (allGeschwisterList + j)->vorname) == 0 &&
+                    strcmp(geschwisterPtr->nachname, (allGeschwisterList + j)->nachname) == 0 &&
+                    geschwisterPtr->geburtsjahr == (allGeschwisterList + j)->geburtsjahr) {
                     isSame = 1;
                     break;
                 }
             }
 
             if (isSame == 0) {
-                for (int l = 0; (geschwisterPtr + l)->geburtsjahr != 0; l++) {
-                    *(allGeschwisterList + count) = *(geschwisterPtr + l);
+                for (int k = 0; (geschwisterPtr + k)->geburtsjahr != 0; k++) {
+                    *(allGeschwisterList + count) = *(geschwisterPtr + k);
                     count++;
                 }
             }
@@ -101,16 +101,24 @@ Geschwister *getAllMittelGeschwister() {
     return allGeschwisterList;
 }
 
-// sort by the year of birth. quicksort
-unsigned int compareInt(const void *a, const void *b) {
+int compareInt(const void *a, const void *b) {
    return *(unsigned int *)a - *(unsigned int *)b;
 }
+
+int compareName(const void *a, const void *b) {
+    Geschwister *gesA = (Geschwister *)a;
+    Geschwister *gesB = (Geschwister *)b;
+    return strcmp(gesA->vorname, gesB->vorname);
+}
+
+// sort by the year of birth
 void sortByGeburtsjahr(const int length, Geschwister *geschwisterList) {
     qsort(geschwisterList, length, sizeof(Geschwister), compareInt);
 }
-// sort by the alphabetical order of full name. bubble sort
+
+// sort by the alphabetical order of first name
 void sortByName(const int length, Geschwister *geschwisterList) {
-    qsort(geschwisterList, length, sizeof(Geschwister), strcmp);
+    qsort(geschwisterList, length, sizeof(Geschwister), compareName);
 }
 
 void printGeschwisterList(Geschwister *allGeschwisterList) {
